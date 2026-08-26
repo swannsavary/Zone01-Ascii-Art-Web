@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// donnees de chaque page
 type PageData struct {
 	Titre string
 	Texte string
@@ -19,6 +20,7 @@ var choixSaisi string = "standard"
 var textecrit string = ""
 var tmpl *template.Template
 
+// page d'accueille du site
 func accueil(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.Error(w, "error: 404 ", 404)
@@ -32,6 +34,7 @@ func accueil(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// prend l'input puis l'affiche en mode ascii-art
 func texte(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "cette route n'accepte que les requêtes POST", 400)
