@@ -26,7 +26,7 @@ func accueil(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "error: 404 ", 404)
 		return
 	}
-	data := PageData{Titre: "Mon input", Texte: texteSaisi, Choix: choixSaisi, Ecrit: textecrit}
+	data := PageData{Titre: "Ascii-Art-Web", Texte: texteSaisi, Choix: choixSaisi, Ecrit: textecrit}
 	err := tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, "error: 500 ", 500)
@@ -60,7 +60,7 @@ func texte(w http.ResponseWriter, r *http.Request) {
 	}
 
 	texteSaisi = resultat
-	data := PageData{Titre: "Mon input", Texte: texteSaisi, Choix: choixSaisi, Ecrit: textecrit}
+	data := PageData{Titre: "Ascii-Art-Web", Texte: texteSaisi, Choix: choixSaisi, Ecrit: textecrit}
 	err = tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, "error: 500 ", 500)
