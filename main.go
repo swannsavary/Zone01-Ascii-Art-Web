@@ -29,20 +29,41 @@ func accueil(w http.ResponseWriter, r *http.Request) {
 }
 
 func texte(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "cette route n'accepte que les requêtes POST", 400)
+		return
+	}
 	choixSaisi = r.FormValue("choix")
 	textecrit = r.FormValue("monTexte")
+
+	tmpl, err := template.ParseFiles("templates/index.html")
+	if err != nil {
+		http.Error(w, "template introuvable", 404)
+		return
+	}
 	resultat, err := asciiart.AsciiArt(textecrit, choixSaisi)
 	if err != nil {
 		if err.Error() == "404" {
-			http.Error(w, "error: 404", 404)
-			return
+			w.WriteHeader(404)
 		} else if err.Error() == "400" {
-			http.Error(w, "error: 400", 400)
+			w.WriteHeader(400)
+		}
+		data := PageData{Titre: "Mon input", Texte: "Erreur : " + err.Error(), Choix: choixSaisi, Ecrit: textecrit}
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			http.Error(w, "error: 500 ", 500)
 			return
 		}
+		return
 	}
+
 	texteSaisi = resultat
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	data := PageData{Titre: "Mon input", Texte: texteSaisi, Choix: choixSaisi, Ecrit: textecrit}
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, "error: 500 ", 500)
+		return
+	}
 }
 
 func main() {

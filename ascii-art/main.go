@@ -10,6 +10,8 @@ func AsciiArt(s string, typ string) (string, error) {
 	fileContent, err := whoPolis(typ)
 	if err != nil && err.Error() == "404" {
 		return "", errors.New("404")
+	} else if err != nil && err.Error() == "400" {
+		return "", errors.New("400")
 	}
 	fileLines := strings.Split(string(fileContent), "\n")
 
@@ -26,10 +28,10 @@ func splitcara(s string) ([][]rune, error) {
 	s2 := []rune(s)
 	s3 := []rune{}
 	for i := 0; i < len(s2); i++ {
-		if s2[i] > 128 {
+		if s2[i] >= 126 && s2[i] <= 32 {
 			return [][]rune{}, errors.New("400")
 		}
-		if s2[i] == '\\' && s2[i+1] == 'n' {
+		if i != len(s2)-1 && s2[i] == '\\' && s2[i+1] == 'n' {
 			result = append(result, s3)
 			s3 = []rune{}
 		} else if i != 0 && s2[i-1] == '\\' && s2[i] == 'n' {
@@ -74,9 +76,14 @@ var banners = map[string]string{
 
 // renvoie le bon fichier a exploiter en fonction du numero optionnel
 func whoPolis(typ string) ([]byte, error) {
-	nomDuFichier := "standard.txt"
 	if chemin, exist := banners[typ]; exist {
-		nomDuFichier = chemin
+		file, err := os.ReadFile(chemin)
+		if err != nil {
+			err = errors.New("404")
+		}
+		return file, err
+	} else {
+		err := errors.New("400")
+		return nil, err
 	}
-	return os.ReadFile(nomDuFichier)
 }
