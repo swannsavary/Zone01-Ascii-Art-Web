@@ -20,6 +20,10 @@ var textecrit string = ""
 var tmpl *template.Template
 
 func accueil(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.Error(w, "error: 404 ", 404)
+		return
+	}
 	data := PageData{Titre: "Mon input", Texte: texteSaisi, Choix: choixSaisi, Ecrit: textecrit}
 	err := tmpl.Execute(w, data)
 	if err != nil {
