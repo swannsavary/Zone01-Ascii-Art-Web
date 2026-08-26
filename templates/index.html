@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{.Titre}}</title></head>
+<body>
+    <h1>{{.Titre}}</h1>
+
+    <form action="/ascii-art" method="POST">
+
+    <div>
+        <label for="monTexte">Texte à convertir :</label>
+        <input type="text" name="monTexte" value = "{{.Ecrit}}" id="monTexte">
+    </div>
+
+    <div>
+        <input type="radio" name="choix" value="standard" id="standard" {{if eq .Choix "standard"}}checked{{end}}>
+        <label for="standard">Standard</label>
+
+        <input type="radio" name="choix" value="shadow" id="shadow" {{if eq .Choix "shadow"}}checked{{end}}>
+        <label for="shadow">Shadow</label>
+
+        <input type="radio" name="choix" value="thinkertoy" id="thinkertoy" {{if eq .Choix "thinkertoy"}}checked{{end}}>
+        <label for="thinkertoy">Thinkertoy</label>
+    </div>
+
+    <button type="submit">Envoyer</button>
+</form>
+
+    <pre>{{.Texte}}</pre>
+</body>
+</html>

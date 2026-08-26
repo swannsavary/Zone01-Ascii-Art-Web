@@ -1,0 +1,82 @@
+package asciiart
+
+import (
+	"errors"
+	"os"
+	"strings"
+)
+
+func AsciiArt(s string, typ string) (string, error) {
+	fileContent, err := whoPolis(typ)
+	if err != nil && err.Error() == "404" {
+		return "", errors.New("404")
+	}
+	fileLines := strings.Split(string(fileContent), "\n")
+
+	caractere, err := splitcara(s)
+	if err != nil && err.Error() == "400" {
+		return "", errors.New("400")
+	}
+	return printCara(fileLines, caractere), nil
+}
+
+// separe les caractere d'un string et le separe en un slice de slice de rune a chaque \n
+func splitcara(s string) ([][]rune, error) {
+	var result [][]rune
+	s2 := []rune(s)
+	s3 := []rune{}
+	for i := 0; i < len(s2); i++ {
+		if s2[i] > 128 {
+			return [][]rune{}, errors.New("400")
+		}
+		if s2[i] == '\\' && s2[i+1] == 'n' {
+			result = append(result, s3)
+			s3 = []rune{}
+		} else if i != 0 && s2[i-1] == '\\' && s2[i] == 'n' {
+			continue
+		} else {
+			s3 = append(s3, s2[i])
+		}
+	}
+	if len(s3) != 0 {
+		result = append(result, s3)
+	}
+	return result, nil
+}
+
+// affiche les caracteres du fichier
+func printCara(file []string, cara [][]rune) string {
+	var result string
+	for j := 0; j < len(cara); j++ {
+		if len(cara[j]) == 0 {
+			result += "\n"
+			continue
+		}
+		for i := 0; i <= 8; i++ {
+			for e := 0; e < len(cara[j]); e++ {
+				poslettre := (cara[j][e] - ' ') * 9
+				result += file[i+int(poslettre)]
+			}
+			if i != 0 {
+				result += "\n"
+			}
+		}
+	}
+	return result
+}
+
+// structure qui lie le numero optionnel au fichier correspondant
+var banners = map[string]string{
+	"standard":   "standard.txt",
+	"shadow":     "shadow.txt",
+	"thinkertoy": "thinkertoy.txt",
+}
+
+// renvoie le bon fichier a exploiter en fonction du numero optionnel
+func whoPolis(typ string) ([]byte, error) {
+	nomDuFichier := "standard.txt"
+	if chemin, exist := banners[typ]; exist {
+		nomDuFichier = chemin
+	}
+	return os.ReadFile(nomDuFichier)
+}
