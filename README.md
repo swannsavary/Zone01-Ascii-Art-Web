@@ -1,17 +1,17 @@
-##Description
+## Description
 
 Ascii-art-web est un site internet qui vas prendre une chaine de caractere et avas l'afficher en art en fonction de divers polisse . 
 
-##author
+## author
 
 realiser entierement par Savary Swann .
 
-##utilisation
+## utilisation
 
 dans le dossier ascii-art-web lancer un "go run . "
 ensuite aller sur http://localhost:8080 
 
-##detail
+## detail
 
 Le programme lit un fichier de police ASCII (ex: standard.txt), où chaque
 caractère imprimable (de l'espace à '~') est représenté par 8 lignes de texte 
