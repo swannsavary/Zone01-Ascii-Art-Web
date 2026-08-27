@@ -29,6 +29,11 @@ func splitcara(s string) ([][]rune, error) {
 	s2 := []rune(s)
 	s3 := []rune{}
 	for i := 0; i < len(s2); i++ {
+		if s2[i] == '\n' {
+			result = append(result, s3)
+			s3 = []rune{}
+			continue
+		}
 		if s2[i] > 126 || s2[i] < 32 {
 			return [][]rune{}, errors.New("400") //<- return erreur 400 si un caractere n'est pas supporter avec le fichier ascii art
 		}

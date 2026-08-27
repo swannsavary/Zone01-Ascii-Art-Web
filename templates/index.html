@@ -7,9 +7,9 @@
     <form action="/ascii-art" method="POST">
 
     <div>
-        <label for="monTexte">Texte à convertir :</label>
-        <input type="text" name="monTexte" value = "{{.Ecrit}}" id="monTexte">
-    </div>
+    <label for="monTexte">Texte à convertir :</label><br>
+    <textarea name="monTexte" id="monTexte" rows="4" cols="40">{{.Ecrit}}</textarea>
+</div>
 
     <div>
         <input type="radio" name="choix" value="standard" id="standard" {{if eq .Choix "standard"}}checked{{end}}>

@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 )
 
 // donnees de chaque page
@@ -42,7 +43,8 @@ func texte(w http.ResponseWriter, r *http.Request) {
 	}
 	choixSaisi = r.FormValue("choix")
 	textecrit = r.FormValue("monTexte")
-	resultat, err := asciiart.AsciiArt(textecrit, choixSaisi)
+	texteNormalise := strings.ReplaceAll(textecrit, "\r\n", "\n")
+	resultat, err := asciiart.AsciiArt(texteNormalise, choixSaisi)
 
 	if err != nil {
 		if err.Error() == "404" {
