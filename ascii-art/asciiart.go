@@ -9,8 +9,8 @@ import (
 // prend une chaine de caracere et renvoi une chaine de caractere en ascii-art
 func AsciiArt(s string, typ string) (string, error) {
 	fileContent, err := whoPolis(typ)
-	if err != nil && err.Error() == "404" {
-		return "", errors.New("404")
+	if err != nil && err.Error() == "500" {
+		return "", errors.New("500")
 	} else if err != nil && err.Error() == "400" {
 		return "", errors.New("400")
 	}
@@ -85,7 +85,7 @@ func whoPolis(typ string) ([]byte, error) {
 	if chemin, exist := banners[typ]; exist {
 		file, err := os.ReadFile(chemin)
 		if err != nil {
-			err = errors.New("404")
+			err = errors.New("500")
 		}
 		return file, err
 	} else {

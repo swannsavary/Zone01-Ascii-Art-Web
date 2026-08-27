@@ -47,8 +47,8 @@ func texte(w http.ResponseWriter, r *http.Request) {
 	resultat, err := asciiart.AsciiArt(texteNormalise, choixSaisi)
 
 	if err != nil {
-		if err.Error() == "404" {
-			w.WriteHeader(404)
+		if err.Error() == "500" {
+			w.WriteHeader(500)
 		} else if err.Error() == "400" {
 			w.WriteHeader(400)
 		}
