@@ -52,7 +52,7 @@ func texte(w http.ResponseWriter, r *http.Request) {
 		} else if err.Error() == "400" {
 			w.WriteHeader(400)
 		}
-		data := PageData{Titre: "Mon input", Texte: "Erreur : " + err.Error(), Choix: choixSaisi, Ecrit: textecrit}
+		data := PageData{Titre: "Ascii-Art-Web", Texte: "Erreur : " + err.Error(), Choix: choixSaisi, Ecrit: textecrit}
 		err = tmpl.Execute(w, data)
 		if err != nil {
 			http.Error(w, "error: 500 ", 500)
@@ -72,6 +72,9 @@ func texte(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	tmpl = template.Must(template.ParseFiles("templates/index.html"))
+
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", accueil)
 	http.HandleFunc("/ascii-art", texte)
