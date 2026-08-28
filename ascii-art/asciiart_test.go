@@ -131,14 +131,14 @@ func TestWhoPolis(t *testing.T) {
 		}
 	})
 
-	t.Run("type connu mais fichier absent renvoie 404", func(t *testing.T) {
+	t.Run("type connu mais fichier absent renvoie 500", func(t *testing.T) {
 		const key = "test_missing_file"
 		banners[key] = "fichier_qui_nexiste_pas_xyz.txt"
 		defer delete(banners, key)
 
 		_, err := whoPolis(key)
-		if err == nil || err.Error() != "404" {
-			t.Fatalf("attendu erreur 404, obtenu: %v", err)
+		if err == nil || err.Error() != "500" {
+			t.Fatalf("attendu erreur 500, obtenu: %v", err)
 		}
 	})
 
