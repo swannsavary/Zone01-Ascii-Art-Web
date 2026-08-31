@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// prend une chaine de caracere et renvoi une chaine de caractere en ascii-art
+// prend une chaine de caractere et renvoi une chaine de caractere en ascii-art
 func AsciiArt(s string, typ string) (string, error) {
 	fileContent, err := whoPolis(typ)
 	if err != nil && err.Error() == "500" {
@@ -23,7 +23,7 @@ func AsciiArt(s string, typ string) (string, error) {
 	return changeToAsciiArt(fileLines, caractere), nil
 }
 
-// separe les caractere d'un string et le separe en un slice de slice de rune a chaque \n
+// separe les caracteres d'un string et le separe en un slice de slice de rune a chaque \n
 func splitcara(s string) ([][]rune, error) {
 	var result [][]rune
 	s2 := []rune(s)
@@ -35,7 +35,7 @@ func splitcara(s string) ([][]rune, error) {
 			continue
 		}
 		if s2[i] > 126 || s2[i] < 32 {
-			return [][]rune{}, errors.New("400") //<- return erreur 400 si un caractere n'est pas supporter avec le fichier ascii art
+			return [][]rune{}, errors.New("400") //<- return erreur 400 si un caractere n'est pas supporter par le fichier ascii art
 		}
 		if i != len(s2)-1 && s2[i] == '\\' && s2[i+1] == 'n' {
 			result = append(result, s3)
@@ -52,7 +52,7 @@ func splitcara(s string) ([][]rune, error) {
 	return result, nil
 }
 
-// change un [][]rune en un autre en fonction de l'option de maniere qu'une fois afficher il l'affiche  en ascii-art
+// change un [][]rune en un autre en fonction de l'option de maniere qu'une fois afficher il l'affiche en ascii-art
 func changeToAsciiArt(file []string, cara [][]rune) string {
 	var result string
 	for j := 0; j < len(cara); j++ {
@@ -73,7 +73,7 @@ func changeToAsciiArt(file []string, cara [][]rune) string {
 	return result
 }
 
-// structure qui lie la valeur de l'option au fichier correspondant
+// structure qui lie le nom de l'option au fichier correspondant
 var banners = map[string]string{
 	"standard":   "standard.txt",
 	"shadow":     "shadow.txt",

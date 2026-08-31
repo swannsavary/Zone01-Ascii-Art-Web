@@ -16,6 +16,7 @@ type PageData struct {
 	Ecrit string
 }
 
+// variable qui enregistre les donnees
 var texteSaisi string = ""
 var choixSaisi string = "standard"
 var textecrit string = ""
