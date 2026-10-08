@@ -1,40 +1,50 @@
 <!DOCTYPE html>
-<html>
-<head><title>{{.Titre}}</title>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.Titre}}</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Spray+Paint&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>{{.Titre}}</h1>
 
     <form action="/ascii-art" method="POST">
-    <div class="zone">
-        <div  class="texte">
-            <p>Texte à convertir :</p>
-            <textarea name="monTexte" id="monTexte" rows="4" cols="40">{{.Ecrit}}</textarea>
+        <div class="zone">
+            <div class="texte">
+                <p class="etiquette">Texte à convertir :</p>
+                <textarea name="monTexte" id="monTexte" rows="4" cols="40"
+                          maxlength="120" placeholder="Écris ton tag ici...">{{.Ecrit}}</textarea>
+            </div>
+
+            <div class="choix">
+                <div>
+                    <input type="radio" name="choix" value="standard" id="standard" {{if eq .Choix "standard"}}checked{{end}}>
+                    <label for="standard">Standard</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="choix" value="shadow" id="shadow" {{if eq .Choix "shadow"}}checked{{end}}>
+                    <label for="shadow">Shadow</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="choix" value="thinkertoy" id="thinkertoy" {{if eq .Choix "thinkertoy"}}checked{{end}}>
+                    <label for="thinkertoy">Thinkertoy</label>
+                </div>
+            </div>
         </div>
 
-        <div  class="choix">
-            <div>
-            <input type="radio" name="choix" value="standard" id="standard" {{if eq .Choix "standard"}}checked{{end}}>
-            <label for="standard">Standard</label>
-            </div>
-
-            <div>
-            <input type="radio" name="choix" value="shadow" id="shadow" {{if eq .Choix "shadow"}}checked{{end}}>
-            <label for="shadow">Shadow</label>
-            </div>
-
-            <div>
-            <input type="radio" name="choix" value="thinkertoy" id="thinkertoy" {{if eq .Choix "thinkertoy"}}checked{{end}}>
-            <label for="thinkertoy">Thinkertoy</label>
-            </div>
-            
+        <div class="buttons">
+            <button type="submit">Générer</button>
         </div>
+    </form>
+
+    <div class="affiche">
+        <pre>{{.Texte}}</pre>
     </div>
-
-    <button type="submit">Envoyer</button>
-</form>
-
-    <pre>{{.Texte}}</pre>
 </body>
 </html>
