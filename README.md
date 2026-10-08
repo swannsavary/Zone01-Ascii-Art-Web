@@ -25,3 +25,29 @@ horizontalement pour former le dessin final, caractère par caractère.
 Le serveur HTTP expose deux routes : GET / affiche la page d'accueil 
 et POST /ascii-art traite le texte et la police choisis 
 pour générer et afficher le résultat.
+
+## Docker
+
+# pour build 
+docker build -t ascii-art-web:2.0 .
+# pour le lancer 
+docker run -d -p 8080:8080 --rm --name ascii-web \
+  --label fr.zone01.titre="ascii-art-web container" \
+  --label fr.zone01.version="2.0" \
+  ascii-art-web:2.0
+
+# pour verifier
+
+docker ps
+docker logs ascii-web
+docker inspect --format '{{json .Config.Labels}}' ascii-web
+docker inspect --format '{{json .Config.Labels}}' ascii-art-web:2.0
+
+# l'arreter
+
+docker stop ascii-web
+
+# nettoyer 
+docker rmi ascii-art-web:1.0
+docker image prune
+docker system df
